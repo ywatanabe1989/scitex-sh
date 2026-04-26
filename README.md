@@ -1,0 +1,45 @@
+# scitex-sh
+
+Safe subprocess wrapper extracted from the [SciTeX](https://github.com/ywatanabe1989/scitex-python) ecosystem as a standalone, zero-dep package.
+
+List-only (no shell-string parsing) → no shell-injection. Stream output, timeouts, structured `ShellResult` return.
+
+## Install
+
+```bash
+pip install scitex-sh
+```
+
+## API
+
+```python
+import scitex_sh as sh
+
+# Dict result with stdout/stderr/returncode/success
+res = sh.sh(["git", "status"])
+# {"success": True, "stdout": "...", "stderr": "", "returncode": 0, ...}
+
+# String result
+out = sh.sh(["ls", "-la"], return_as="str")
+
+# Streamed
+sh.sh(["./long-running.sh"], stream_output=True)
+
+# Timeout
+sh.sh(["sleep", "10"], timeout=2)
+
+# Lower-level
+res = sh.sh_run(["echo", "hi"])
+sh.quote("hello world")  # 'hello world' (POSIX-quoted)
+```
+
+## Status
+
+Standalone fork of `scitex.sh`. Zero deps (pure stdlib). The umbrella package's
+`scitex.sh` import path is preserved via a `sys.modules`-alias bridge. The
+`scitex.str.color_text` dep used for terminal output is replaced with a tiny
+inline ANSI helper that respects `NO_COLOR` and TTY detection.
+
+## License
+
+AGPL-3.0-only (see [LICENSE](./LICENSE)).
