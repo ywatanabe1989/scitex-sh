@@ -1,5 +1,16 @@
 # scitex-sh
 
+<!-- scitex-badges:start -->
+[![PyPI](https://img.shields.io/pypi/v/scitex-sh.svg)](https://pypi.org/project/scitex-sh/)
+[![Python](https://img.shields.io/pypi/pyversions/scitex-sh.svg)](https://pypi.org/project/scitex-sh/)
+[![Tests](https://github.com/ywatanabe1989/scitex-sh/actions/workflows/test.yml/badge.svg)](https://github.com/ywatanabe1989/scitex-sh/actions/workflows/test.yml)
+[![Install Test](https://github.com/ywatanabe1989/scitex-sh/actions/workflows/install-test.yml/badge.svg)](https://github.com/ywatanabe1989/scitex-sh/actions/workflows/install-test.yml)
+[![Coverage](https://codecov.io/gh/ywatanabe1989/scitex-sh/graph/badge.svg)](https://codecov.io/gh/ywatanabe1989/scitex-sh)
+[![Docs](https://readthedocs.org/projects/scitex-sh/badge/?version=latest)](https://scitex-sh.readthedocs.io/en/latest/)
+[![License: AGPL v3](https://img.shields.io/badge/license-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+<!-- scitex-badges:end -->
+
+
 Safe subprocess wrapper extracted from the [SciTeX](https://github.com/ywatanabe1989/scitex-python) ecosystem as a standalone, zero-dep package.
 
 List-only (no shell-string parsing) → no shell-injection. Stream output, timeouts, structured `ShellResult` return.
