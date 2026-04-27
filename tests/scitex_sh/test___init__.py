@@ -25,7 +25,7 @@ class TestShFunctionBasic:
 
     def test_sh_import_from_scitex(self):
         """Test sh can be imported from scitex_sh module."""
-        import scitex.sh as sh_module
+        import scitex_sh as sh_module
 
         assert hasattr(sh_module, "sh")
         assert callable(sh_module.sh)
@@ -258,7 +258,7 @@ class TestModuleExports:
 
     def test_all_exports(self):
         """Test __all__ contains expected exports."""
-        import scitex.sh as sh_module
+        import scitex_sh as sh_module
 
         assert hasattr(sh_module, "__all__")
         assert "sh" in sh_module.__all__
@@ -266,14 +266,14 @@ class TestModuleExports:
         assert "quote" in sh_module.__all__
 
     def test_sh_accessible_from_scitex(self):
-        """Test sh is accessible from scitex namespace."""
-        import scitex
+        """Test sh is accessible from scitex namespace (umbrella optional)."""
+        scitex = pytest.importorskip("scitex")
 
         assert hasattr(scitex, "sh")
 
     def test_sh_run_accessible_from_scitex_sh(self):
         """Test sh_run is accessible from scitex_sh module."""
-        import scitex.sh as sh_module
+        import scitex_sh as sh_module
 
         assert hasattr(sh_module, "sh_run")
         assert callable(sh_module.sh_run)
