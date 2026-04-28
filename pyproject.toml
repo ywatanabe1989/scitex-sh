@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "scitex-sh"
-version = "0.1.0"
+version = "0.1.1"
 description = "Safe subprocess wrapper (list-only, no shell injection) with stream/timeout support — standalone module from the SciTeX ecosystem"
 readme = "README.md"
 license = "AGPL-3.0-only"
@@ -43,6 +43,12 @@ Documentation = "https://scitex-sh.readthedocs.io"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+scitex_sh = ["_skills/**/*.md"]
+
+[project.entry-points."scitex_dev.skills"]
+scitex-sh = "scitex_sh"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
