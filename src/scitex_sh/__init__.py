@@ -102,6 +102,6 @@ def sh_run(command: CommandInput, verbose: bool = True) -> ShellResult:
 # Legacy functions moved from gen module
 from ._shell_legacy import run_shellcommand, run_shellscript
 
-__all__ = ["sh", "sh_run", "quote", "run_shellcommand", "run_shellscript"]
+__all__ = ["__version__", "sh", "sh_run", "quote", "run_shellcommand", "run_shellscript"]
 
 # EOF
