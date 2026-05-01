@@ -1,0 +1,13 @@
+﻿scitex\_sh
+==========
+
+.. automodule:: scitex_sh
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      sh
+      sh_run
+   
