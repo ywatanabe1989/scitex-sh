@@ -79,7 +79,7 @@ inline ANSI helper that respects `NO_COLOR` and TTY detection.
 
 `scitex-sh` is part of [**SciTeX**](https://scitex.ai). Install via
 the umbrella with `pip install scitex[sh]` to use as
-`scitex.sh` (Python).
+`scitex.sh` (Python) or `scitex sh ...` (CLI).
 
 >Four Freedoms for Research
 >
