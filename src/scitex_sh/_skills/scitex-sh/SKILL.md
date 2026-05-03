@@ -1,16 +1,17 @@
 ---
 name: scitex-sh
-description: Safe subprocess wrapper — `execute(['cmd', 'arg'])` is a list-only API (no shell injection), with sensible defaults for capture, timeout, and error reporting. Drop-in replacement for `subprocess.run([...], check=True, capture_output=True, text=True)` boilerplate.
+description: |
+  [WHAT] Safe subprocess wrapper — list-only `execute(['cmd', 'arg'])` API (no shell injection) with sensible defaults for capture, timeout, and error reporting.
+  [WHEN] Running a shell command from Python without writing the full `subprocess.run([...], check=True, capture_output=True, text=True)` boilerplate.
+  [HOW] `from scitex_sh import sh, execute` — call `sh(['cmd','arg'], return_as='dict')` or `execute([...])`.
+tags: [scitex-sh]
 primary_interface: python
 interfaces:
   python: 2
   cli: 0
   mcp: 0
   skills: 2
-  hook: 0
   http: 0
-canonical-location: scitex-sh/src/scitex_sh/_skills/scitex-sh/SKILL.md
-tags: [scitex-sh, scitex-package]
 ---
 
 > **Interfaces:** Python ⭐⭐ · CLI — · MCP — · Skills ⭐⭐ · Hook — · HTTP —
