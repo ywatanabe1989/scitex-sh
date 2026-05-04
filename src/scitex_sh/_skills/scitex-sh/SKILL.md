@@ -21,6 +21,12 @@ interfaces:
 Safe subprocess wrapper — `execute(['cmd', 'arg'])` is a list-only API (no shell injection), with sensible defaults for capture, timeout, and error reporting. Drop-in replacement for `subprocess.run([...], check=True, capture_output=True, text=True)` boilerplate.
 
 See README.md and the package's public `__init__.py` for the full
-function list. This skill leaf exists so agents discover the package
-exists and roughly what shape it has — refer to the source for
-signatures.
+function list.
+
+## Sub-skills
+
+- [01_installation.md](01_installation.md) — pip install + smoke verify
+- [02_quick-start.md](02_quick-start.md) — sh / sh_run / timeout / streaming patterns
+- [03_python-api.md](03_python-api.md) — full public surface + security note
+
+No CLI, no MCP tools.
