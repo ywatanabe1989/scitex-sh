@@ -32,13 +32,24 @@
 pip install scitex-sh
 ```
 
-## Quick Start
+## Architecture
 
-```python
-import scitex_sh as sh
+```
+src/scitex_sh/
+├── __init__.py         # public re-exports: sh, sh_run, quote
+├── _execute.py         # core sh() — list-only argv, dict result, streaming, timeouts
+├── _security.py        # reject shell=True / string-cmd inputs (refuse silent injection)
+├── _shell_legacy.py    # opt-in legacy shell-string path (kept off by default)
+└── _types.py           # ShResult TypedDict
+```
 
-res = sh.sh(["git", "status"])
-print(res["stdout"])
+```mermaid
+flowchart LR
+    user["sh.sh([cmd, arg, arg])"] --> guard["_security: reject str / shell=True"]
+    guard --> sub["subprocess.run / Popen"]
+    sub -->|"capture"| dict[("{stdout, stderr, returncode, success}")]
+    sub -.->|"stream_output=True"| tty[("live stdout/stderr")]
+    sub -.->|"timeout=N"| killed[("TimeoutExpired → returncode != 0")]
 ```
 
 ## 1 Interfaces
@@ -69,6 +80,26 @@ sh.quote("hello world")            # 'hello world' (POSIX-quoted)
 ```
 
 </details>
+
+## Demo
+
+```mermaid
+flowchart LR
+    A["sh.sh(['git', 'status'])"] --> R1[("{stdout, stderr,\nreturncode, success}")]
+    B["sh.sh(['ls', '-la'], return_as='str')"] --> R2[("stdout str")]
+    C["sh.sh(['./long.sh'], stream_output=True)"] --> R3[("live tty stream")]
+    D["sh.sh(['sleep', '10'], timeout=2)"] --> R4[("TimeoutExpired")]
+    E["sh.sh('rm -rf /')\n(string input)"] --> R5[("ValueError: list-only")]
+```
+
+## Quick Start
+
+```python
+import scitex_sh as sh
+
+res = sh.sh(["git", "status"])
+print(res["stdout"])
+```
 
 ## Status
 
