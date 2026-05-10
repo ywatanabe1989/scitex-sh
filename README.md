@@ -9,7 +9,7 @@
 <p align="center"><b>Safe subprocess wrapper — list-only (no shell-string parsing), structured result, timeouts, streaming.</b></p>
 
 <p align="center">
-  <a href="https://scitex-sh.readthedocs.io/">Full Documentation</a> · <code>pip install scitex-sh</code>
+  <a href="https://scitex-sh.readthedocs.io/">Full Documentation</a> · <code>uv pip install scitex-sh[all]</code>
 </p>
 
 <!-- scitex-badges:start -->
