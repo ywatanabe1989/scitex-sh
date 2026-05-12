@@ -1,0 +1,9 @@
+# scitex-dev local config for scitex-sh
+# Tracked in git (see .gitignore exception) so CI sees the same
+# whitelist as local audit runs.
+audit:
+  root-whitelist:
+    files:
+      # Codecov config lives at repo root by convention; not a “junk”
+      # file even though PS-103's baseline-dir rule would flag it.
+      - codecov.yml

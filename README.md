@@ -17,8 +17,7 @@
   <a href="https://pypi.org/project/scitex-sh/"><img src="https://img.shields.io/pypi/v/scitex-sh.svg" alt="PyPI"></a>
   <a href="https://pypi.org/project/scitex-sh/"><img src="https://img.shields.io/pypi/pyversions/scitex-sh.svg" alt="Python"></a>
   <a href="https://github.com/ywatanabe1989/scitex-sh/actions/workflows/test.yml"><img src="https://github.com/ywatanabe1989/scitex-sh/actions/workflows/test.yml/badge.svg" alt="Tests"></a>
-  <a href="https://github.com/ywatanabe1989/scitex-sh/actions/workflows/install-test.yml"><img src="https://github.com/ywatanabe1989/scitex-sh/actions/workflows/install-test.yml/badge.svg" alt="Install Test"></a>
-  <a href="https://codecov.io/gh/ywatanabe1989/scitex-sh"><img src="https://codecov.io/gh/ywatanabe1989/scitex-sh/graph/badge.svg" alt="Coverage"></a>
+  <a href="https://codecov.io/gh/ywatanabe1989/scitex-sh"><img src="https://codecov.io/gh/ywatanabe1989/scitex-sh/branch/develop/graph/badge.svg" alt="Coverage (develop)"></a>
   <a href="https://scitex-sh.readthedocs.io/en/latest/"><img src="https://readthedocs.org/projects/scitex-sh/badge/?version=latest" alt="Docs"></a>
   <a href="https://www.gnu.org/licenses/agpl-3.0"><img src="https://img.shields.io/badge/license-AGPL_v3-blue.svg" alt="License: AGPL v3"></a>
 </p>

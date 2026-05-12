@@ -26,7 +26,7 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install pytest pytest-cov pytest-timeout
-          pip install -e ".[dev]" || pip install -e .
+          pip install -e ".[all,dev]" || pip install -e ".[dev]" || pip install -e .
       - name: Detect import name
         id: pkg
         run: |
@@ -38,9 +38,28 @@ jobs:
             --cov=src/${{ steps.pkg.outputs.import_name }} \
             --cov-report=xml --cov-report=term
       - name: Upload coverage to Codecov
-        if: matrix.python-version == '3.12'
-        uses: codecov/codecov-action@v4
+        if: always() && matrix.python-version == '3.12'
+        uses: codecov/codecov-action@v5
         with:
           files: coverage.xml
           fail_ci_if_error: false
           token: ${{ secrets.CODECOV_TOKEN }}
+
+  install-check:
+    # Catches undeclared runtime deps that the package's own test suite misses.
+    # Reproduces the path a fresh user takes: build wheel, pip install in a
+    # clean venv, then `import scitex_sh`.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build wheel and import from a fresh venv
+        run: |
+          python -m pip install --upgrade pip build
+          python -m build --wheel
+          python -m venv /tmp/clean-venv
+          /tmp/clean-venv/bin/pip install --upgrade pip
+          /tmp/clean-venv/bin/pip install dist/*.whl
+          /tmp/clean-venv/bin/python -c "import scitex_sh; print(f'OK: {scitex_sh.__name__}')"
