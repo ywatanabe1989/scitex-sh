@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-# Timestamp: "2026-01-05 (ywatanabe)"
-# File: tests/scitex/sh/test__types.py
+# Timestamp: "2026-05-18 (ywatanabe)"
+# File: tests/scitex_sh/test__types.py
 
 """Tests for shell command type definitions.
 
@@ -12,234 +12,484 @@ This module tests the type definitions used in the sh module:
 
 from typing import get_args, get_origin, get_type_hints
 
-import pytest
+
+# ---------------------------------------------------------------------------
+# TestShellResult
+# ---------------------------------------------------------------------------
 
 
-class TestShellResult:
-    """Test ShellResult TypedDict structure."""
-
-    def test_shell_result_import(self):
-        """Test ShellResult can be imported."""
-        from scitex_sh._types import ShellResult
-
-        assert ShellResult is not None
-
-    def test_shell_result_is_typed_dict(self):
-        """Test ShellResult is a TypedDict."""
-        from typing import TypedDict
-
-        from scitex_sh._types import ShellResult
-
-        # TypedDict classes have __annotations__
-        assert hasattr(ShellResult, "__annotations__")
-        # Check it has the expected structure
-        annotations = ShellResult.__annotations__
-        assert "stdout" in annotations
-        assert "stderr" in annotations
-        assert "exit_code" in annotations
-        assert "success" in annotations
-
-    def test_shell_result_field_types(self):
-        """Test ShellResult has correct field types."""
-        from scitex_sh._types import ShellResult
-
-        # Use get_type_hints to resolve forward references from __future__ annotations
-        hints = get_type_hints(ShellResult)
-        assert hints["stdout"] == str
-        assert hints["stderr"] == str
-        assert hints["exit_code"] == int
-        assert hints["success"] == bool
-
-    def test_shell_result_can_be_instantiated(self):
-        """Test ShellResult dict can be created with correct structure."""
-        from scitex_sh._types import ShellResult
-
-        result: ShellResult = {
-            "stdout": "output text",
-            "stderr": "",
-            "exit_code": 0,
-            "success": True,
-        }
-
-        assert result["stdout"] == "output text"
-        assert result["stderr"] == ""
-        assert result["exit_code"] == 0
-        assert result["success"] is True
-
-    def test_shell_result_success_case(self):
-        """Test ShellResult for successful command."""
-        from scitex_sh._types import ShellResult
-
-        result: ShellResult = {
-            "stdout": "Hello World",
-            "stderr": "",
-            "exit_code": 0,
-            "success": True,
-        }
-
-        assert result["success"] is True
-        assert result["exit_code"] == 0
-
-    def test_shell_result_failure_case(self):
-        """Test ShellResult for failed command."""
-        from scitex_sh._types import ShellResult
-
-        result: ShellResult = {
-            "stdout": "",
-            "stderr": "File not found",
-            "exit_code": 1,
-            "success": False,
-        }
-
-        assert result["success"] is False
-        assert result["exit_code"] == 1
-        assert "File not found" in result["stderr"]
-
-    def test_shell_result_multiline_output(self):
-        """Test ShellResult with multiline output."""
-        from scitex_sh._types import ShellResult
-
-        multiline_output = "line1\nline2\nline3"
-        result: ShellResult = {
-            "stdout": multiline_output,
-            "stderr": "",
-            "exit_code": 0,
-            "success": True,
-        }
-
-        assert result["stdout"].count("\n") == 2
-
-    def test_shell_result_unicode_content(self):
-        """Test ShellResult with Unicode content."""
-        from scitex_sh._types import ShellResult
-
-        unicode_output = "日本語テスト 中文测试 한국어테스트"
-        result: ShellResult = {
-            "stdout": unicode_output,
-            "stderr": "",
-            "exit_code": 0,
-            "success": True,
-        }
-
-        assert result["stdout"] == unicode_output
+def test_shell_result_class_is_not_none_after_import():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    value = ShellResult
+    # Assert
+    assert value is not None
 
 
-class TestCommandInput:
-    """Test CommandInput type alias."""
-
-    def test_command_input_import(self):
-        """Test CommandInput can be imported."""
-        from scitex_sh._types import CommandInput
-
-        assert CommandInput is not None
-
-    def test_command_input_is_list_of_strings(self):
-        """Test CommandInput is List[str]."""
-        from typing import List
-
-        from scitex_sh._types import CommandInput
-
-        # CommandInput should be List[str]
-        assert get_origin(CommandInput) == list
-        args = get_args(CommandInput)
-        assert args == (str,)
-
-    def test_command_input_valid_examples(self):
-        """Test valid CommandInput examples."""
-        from scitex_sh._types import CommandInput
-
-        # These are valid CommandInput values
-        cmd1: CommandInput = ["ls", "-la"]
-        cmd2: CommandInput = ["echo", "Hello World"]
-        cmd3: CommandInput = ["git", "commit", "-m", "message"]
-        cmd4: CommandInput = ["python", "-c", 'print("test")']
-
-        assert isinstance(cmd1, list)
-        assert all(isinstance(arg, str) for arg in cmd1)
-        assert isinstance(cmd2, list)
-        assert isinstance(cmd3, list)
-        assert isinstance(cmd4, list)
-
-    def test_command_input_single_command(self):
-        """Test CommandInput with single command."""
-        from scitex_sh._types import CommandInput
-
-        cmd: CommandInput = ["pwd"]
-        assert len(cmd) == 1
-        assert cmd[0] == "pwd"
+def test_shell_result_typeddict_exposes_annotations_attribute():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    has_annotations = hasattr(ShellResult, "__annotations__")
+    # Assert
+    assert has_annotations is True
 
 
-class TestReturnFormat:
-    """Test ReturnFormat literal type."""
-
-    def test_return_format_import(self):
-        """Test ReturnFormat can be imported."""
-        from scitex_sh._types import ReturnFormat
-
-        assert ReturnFormat is not None
-
-    def test_return_format_is_literal(self):
-        """Test ReturnFormat is a Literal type."""
-        from typing import Literal
-
-        from scitex_sh._types import ReturnFormat
-
-        # ReturnFormat should be Literal["dict", "str"]
-        assert get_origin(ReturnFormat) == Literal
-
-    def test_return_format_allowed_values(self):
-        """Test ReturnFormat allowed values."""
-        from scitex_sh._types import ReturnFormat
-
-        allowed = get_args(ReturnFormat)
-        assert "dict" in allowed
-        assert "str" in allowed
-        assert len(allowed) == 2
-
-    def test_return_format_dict_value(self):
-        """Test 'dict' is valid ReturnFormat."""
-        from scitex_sh._types import ReturnFormat
-
-        format_type: ReturnFormat = "dict"
-        assert format_type == "dict"
-
-    def test_return_format_str_value(self):
-        """Test 'str' is valid ReturnFormat."""
-        from scitex_sh._types import ReturnFormat
-
-        format_type: ReturnFormat = "str"
-        assert format_type == "str"
+def test_shell_result_annotations_include_stdout_key():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    annotations = ShellResult.__annotations__
+    # Assert
+    assert "stdout" in annotations
 
 
-class TestModuleExports:
-    """Test module exports and accessibility."""
+def test_shell_result_annotations_include_stderr_key():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    annotations = ShellResult.__annotations__
+    # Assert
+    assert "stderr" in annotations
 
-    def test_all_types_importable_from_module(self):
-        """Test all types can be imported from _types module."""
-        from scitex_sh._types import CommandInput, ReturnFormat, ShellResult
 
-        assert ShellResult is not None
-        assert CommandInput is not None
-        assert ReturnFormat is not None
+def test_shell_result_annotations_include_exit_code_key():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    annotations = ShellResult.__annotations__
+    # Assert
+    assert "exit_code" in annotations
 
-    def test_types_consistency(self):
-        """Test types are consistent with usage patterns."""
-        from scitex_sh._types import CommandInput, ReturnFormat, ShellResult
 
-        # Create a mock scenario
-        command: CommandInput = ["echo", "test"]
-        return_format: ReturnFormat = "dict"
-        result: ShellResult = {
-            "stdout": "test",
-            "stderr": "",
-            "exit_code": 0,
-            "success": True,
-        }
+def test_shell_result_annotations_include_success_key():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    annotations = ShellResult.__annotations__
+    # Assert
+    assert "success" in annotations
 
-        # All should work without type errors
-        assert isinstance(command, list)
-        assert return_format in ("dict", "str")
-        assert isinstance(result, dict)
+
+def test_shell_result_stdout_field_resolves_to_str_type():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    hints = get_type_hints(ShellResult)
+    # Assert
+    assert hints["stdout"] is str
+
+
+def test_shell_result_stderr_field_resolves_to_str_type():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    hints = get_type_hints(ShellResult)
+    # Assert
+    assert hints["stderr"] is str
+
+
+def test_shell_result_exit_code_field_resolves_to_int_type():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    hints = get_type_hints(ShellResult)
+    # Assert
+    assert hints["exit_code"] is int
+
+
+def test_shell_result_success_field_resolves_to_bool_type():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    hints = get_type_hints(ShellResult)
+    # Assert
+    assert hints["success"] is bool
+
+
+def test_shell_result_instance_preserves_stdout_value():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    result: ShellResult = {
+        "stdout": "output text",
+        "stderr": "",
+        "exit_code": 0,
+        "success": True,
+    }
+    # Assert
+    assert result["stdout"] == "output text"
+
+
+def test_shell_result_instance_preserves_empty_stderr_value():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    result: ShellResult = {
+        "stdout": "output text",
+        "stderr": "",
+        "exit_code": 0,
+        "success": True,
+    }
+    # Assert
+    assert result["stderr"] == ""
+
+
+def test_shell_result_instance_preserves_exit_code_value():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    result: ShellResult = {
+        "stdout": "output text",
+        "stderr": "",
+        "exit_code": 0,
+        "success": True,
+    }
+    # Assert
+    assert result["exit_code"] == 0
+
+
+def test_shell_result_instance_preserves_success_boolean_value():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    result: ShellResult = {
+        "stdout": "output text",
+        "stderr": "",
+        "exit_code": 0,
+        "success": True,
+    }
+    # Assert
+    assert result["success"] is True
+
+
+def test_shell_result_for_successful_command_has_success_true():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    result: ShellResult = {
+        "stdout": "Hello World",
+        "stderr": "",
+        "exit_code": 0,
+        "success": True,
+    }
+    # Assert
+    assert result["success"] is True
+
+
+def test_shell_result_for_successful_command_has_exit_code_zero():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    result: ShellResult = {
+        "stdout": "Hello World",
+        "stderr": "",
+        "exit_code": 0,
+        "success": True,
+    }
+    # Assert
+    assert result["exit_code"] == 0
+
+
+def test_shell_result_for_failed_command_has_success_false():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    result: ShellResult = {
+        "stdout": "",
+        "stderr": "File not found",
+        "exit_code": 1,
+        "success": False,
+    }
+    # Assert
+    assert result["success"] is False
+
+
+def test_shell_result_for_failed_command_has_exit_code_one():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    result: ShellResult = {
+        "stdout": "",
+        "stderr": "File not found",
+        "exit_code": 1,
+        "success": False,
+    }
+    # Assert
+    assert result["exit_code"] == 1
+
+
+def test_shell_result_for_failed_command_preserves_stderr_message():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    result: ShellResult = {
+        "stdout": "",
+        "stderr": "File not found",
+        "exit_code": 1,
+        "success": False,
+    }
+    # Assert
+    assert "File not found" in result["stderr"]
+
+
+def test_shell_result_multiline_stdout_preserves_newline_count():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    multiline_output = "line1\nline2\nline3"
+    # Act
+    result: ShellResult = {
+        "stdout": multiline_output,
+        "stderr": "",
+        "exit_code": 0,
+        "success": True,
+    }
+    # Assert
+    assert result["stdout"].count("\n") == 2
+
+
+def test_shell_result_unicode_stdout_preserves_exact_content():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    unicode_output = "日本語テスト 中文测试 한국어테스트"
+    # Act
+    result: ShellResult = {
+        "stdout": unicode_output,
+        "stderr": "",
+        "exit_code": 0,
+        "success": True,
+    }
+    # Assert
+    assert result["stdout"] == unicode_output
+
+
+# ---------------------------------------------------------------------------
+# TestCommandInput
+# ---------------------------------------------------------------------------
+
+
+def test_command_input_type_alias_is_not_none_after_import():
+    # Arrange
+    from scitex_sh._types import CommandInput
+    # Act
+    value = CommandInput
+    # Assert
+    assert value is not None
+
+
+def test_command_input_type_alias_has_list_origin():
+    # Arrange
+    from scitex_sh._types import CommandInput
+    # Act
+    origin = get_origin(CommandInput)
+    # Assert
+    assert origin is list
+
+
+def test_command_input_type_alias_has_str_type_argument():
+    # Arrange
+    from scitex_sh._types import CommandInput
+    # Act
+    args = get_args(CommandInput)
+    # Assert
+    assert args == (str,)
+
+
+def test_command_input_valid_ls_flag_list_is_list_instance():
+    # Arrange
+    from scitex_sh._types import CommandInput
+    # Act
+    cmd: CommandInput = ["ls", "-la"]
+    # Assert
+    assert isinstance(cmd, list)
+
+
+def test_command_input_valid_ls_flag_list_has_all_string_items():
+    # Arrange
+    from scitex_sh._types import CommandInput
+    # Act
+    cmd: CommandInput = ["ls", "-la"]
+    # Assert
+    assert all(isinstance(arg, str) for arg in cmd)
+
+
+def test_command_input_valid_echo_two_word_list_is_list_instance():
+    # Arrange
+    from scitex_sh._types import CommandInput
+    # Act
+    cmd: CommandInput = ["echo", "Hello World"]
+    # Assert
+    assert isinstance(cmd, list)
+
+
+def test_command_input_valid_git_commit_message_list_is_list_instance():
+    # Arrange
+    from scitex_sh._types import CommandInput
+    # Act
+    cmd: CommandInput = ["git", "commit", "-m", "message"]
+    # Assert
+    assert isinstance(cmd, list)
+
+
+def test_command_input_valid_python_inline_script_list_is_list_instance():
+    # Arrange
+    from scitex_sh._types import CommandInput
+    # Act
+    cmd: CommandInput = ["python", "-c", 'print("test")']
+    # Assert
+    assert isinstance(cmd, list)
+
+
+def test_command_input_single_command_list_has_length_one():
+    # Arrange
+    from scitex_sh._types import CommandInput
+    # Act
+    cmd: CommandInput = ["pwd"]
+    # Assert
+    assert len(cmd) == 1
+
+
+def test_command_input_single_command_list_holds_pwd_at_index_zero():
+    # Arrange
+    from scitex_sh._types import CommandInput
+    # Act
+    cmd: CommandInput = ["pwd"]
+    # Assert
+    assert cmd[0] == "pwd"
+
+
+# ---------------------------------------------------------------------------
+# TestReturnFormat
+# ---------------------------------------------------------------------------
+
+
+def test_return_format_type_alias_is_not_none_after_import():
+    # Arrange
+    from scitex_sh._types import ReturnFormat
+    # Act
+    value = ReturnFormat
+    # Assert
+    assert value is not None
+
+
+def test_return_format_type_alias_origin_is_literal():
+    # Arrange
+    from typing import Literal
+    from scitex_sh._types import ReturnFormat
+    # Act
+    origin = get_origin(ReturnFormat)
+    # Assert
+    assert origin is Literal
+
+
+def test_return_format_type_alias_contains_dict_literal_value():
+    # Arrange
+    from scitex_sh._types import ReturnFormat
+    # Act
+    allowed = get_args(ReturnFormat)
+    # Assert
+    assert "dict" in allowed
+
+
+def test_return_format_type_alias_contains_str_literal_value():
+    # Arrange
+    from scitex_sh._types import ReturnFormat
+    # Act
+    allowed = get_args(ReturnFormat)
+    # Assert
+    assert "str" in allowed
+
+
+def test_return_format_type_alias_allows_exactly_two_values():
+    # Arrange
+    from scitex_sh._types import ReturnFormat
+    # Act
+    allowed = get_args(ReturnFormat)
+    # Assert
+    assert len(allowed) == 2
+
+
+def test_return_format_assignment_to_dict_preserves_literal_value():
+    # Arrange
+    from scitex_sh._types import ReturnFormat
+    # Act
+    format_type: ReturnFormat = "dict"
+    # Assert
+    assert format_type == "dict"
+
+
+def test_return_format_assignment_to_str_preserves_literal_value():
+    # Arrange
+    from scitex_sh._types import ReturnFormat
+    # Act
+    format_type: ReturnFormat = "str"
+    # Assert
+    assert format_type == "str"
+
+
+# ---------------------------------------------------------------------------
+# TestModuleExports
+# ---------------------------------------------------------------------------
+
+
+def test_shell_result_export_is_not_none_from_types_module():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    value = ShellResult
+    # Assert
+    assert value is not None
+
+
+def test_command_input_export_is_not_none_from_types_module():
+    # Arrange
+    from scitex_sh._types import CommandInput
+    # Act
+    value = CommandInput
+    # Assert
+    assert value is not None
+
+
+def test_return_format_export_is_not_none_from_types_module():
+    # Arrange
+    from scitex_sh._types import ReturnFormat
+    # Act
+    value = ReturnFormat
+    # Assert
+    assert value is not None
+
+
+def test_command_input_assignment_in_consistency_scenario_is_list():
+    # Arrange
+    from scitex_sh._types import CommandInput
+    # Act
+    command: CommandInput = ["echo", "test"]
+    # Assert
+    assert isinstance(command, list)
+
+
+def test_return_format_assignment_in_consistency_scenario_is_allowed_value():
+    # Arrange
+    from scitex_sh._types import ReturnFormat
+    # Act
+    return_format: ReturnFormat = "dict"
+    # Assert
+    assert return_format in ("dict", "str")
+
+
+def test_shell_result_assignment_in_consistency_scenario_is_dict_instance():
+    # Arrange
+    from scitex_sh._types import ShellResult
+    # Act
+    result: ShellResult = {
+        "stdout": "test",
+        "stderr": "",
+        "exit_code": 0,
+        "success": True,
+    }
+    # Assert
+    assert isinstance(result, dict)
 
 
 if __name__ == "__main__":
@@ -249,38 +499,4 @@ if __name__ == "__main__":
 
     pytest.main([os.path.abspath(__file__)])
 
-# --------------------------------------------------------------------------------
-# Start of Source Code from: /home/ywatanabe/proj/scitex-code/src/scitex/sh/_types.py
-# --------------------------------------------------------------------------------
-# #!/usr/bin/env python3
-# # -*- coding: utf-8 -*-
-# # Timestamp: "2025-10-29 07:24:01 (ywatanabe)"
-# # File: /home/ywatanabe/proj/scitex-code/src/scitex/sh/_types.py
-# # ----------------------------------------
-# from __future__ import annotations
-# import os
-#
-# __FILE__ = "./src/scitex/sh/_types.py"
-# __DIR__ = os.path.dirname(__FILE__)
-# # ----------------------------------------
-#
-# __FILE__ = __file__
-#
-# from typing import List, Literal, TypedDict
-#
-#
-# class ShellResult(TypedDict):
-#     stdout: str
-#     stderr: str
-#     exit_code: int
-#     success: bool
-#
-#
-# CommandInput = List[str]
-# ReturnFormat = Literal["dict", "str"]
-#
-# # EOF
-
-# --------------------------------------------------------------------------------
-# End of Source Code from: /home/ywatanabe/proj/scitex-code/src/scitex/sh/_types.py
-# --------------------------------------------------------------------------------
+# EOF
