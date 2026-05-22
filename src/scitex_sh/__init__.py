@@ -4,7 +4,9 @@
 from __future__ import annotations
 
 try:
-    from importlib.metadata import version as _v, PackageNotFoundError
+    from importlib.metadata import PackageNotFoundError
+    from importlib.metadata import version as _v
+
     try:
         __version__ = _v("scitex-sh")
     except PackageNotFoundError:
@@ -50,7 +52,7 @@ def sh(
     - Each argument is treated as a literal string
     - For pipes/redirects, use Python subprocess chaining
 
-    Examples:
+    Examples
     --------
     >>> from scitex.sh import sh
     >>> sh(["ls", "-la", "/home"])
@@ -89,7 +91,7 @@ def sh_run(command: CommandInput, verbose: bool = True) -> ShellResult:
     Returns:
     - ShellResult dict with stdout, stderr, exit_code, success
 
-    Examples:
+    Examples
     --------
     >>> from scitex.sh import sh_run
     >>> result = sh_run(["ls", "-la"])
@@ -102,6 +104,13 @@ def sh_run(command: CommandInput, verbose: bool = True) -> ShellResult:
 # Legacy functions moved from gen module
 from ._shell_legacy import run_shellcommand, run_shellscript
 
-__all__ = ["__version__", "sh", "sh_run", "quote", "run_shellcommand", "run_shellscript"]
+__all__ = [
+    "__version__",
+    "sh",
+    "sh_run",
+    "quote",
+    "run_shellcommand",
+    "run_shellscript",
+]
 
 # EOF
