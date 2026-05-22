@@ -46,9 +46,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api/scitex_sh.html">scitex_sh</a></li>
-</ul>
 
         </div>
       </div>
@@ -85,7 +82,7 @@
 
 
 <div class="viewcode-block" id="run_shellscript">
-<a class="viewcode-back" href="../../api/scitex_sh.html#scitex_sh.run_shellscript">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_sh.run_shellscript">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">run_shellscript</span><span class="p">(</span><span class="n">lpath_sh</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
     <span class="c1"># Check if the script is executable, if not, make it executable</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">lpath_sh</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">X_OK</span><span class="p">):</span>
@@ -101,7 +98,7 @@
 
 
 <div class="viewcode-block" id="run_shellcommand">
-<a class="viewcode-back" href="../../api/scitex_sh.html#scitex_sh.run_shellcommand">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_sh.run_shellcommand">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">run_shellcommand</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
     <span class="c1"># Prepare the command with additional arguments</span>
     <span class="n">full_command</span> <span class="o">=</span> <span class="p">[</span><span class="n">command</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>

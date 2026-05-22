@@ -22,7 +22,6 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="scitex_sh" href="api/scitex_sh.html" />
     <link rel="prev" title="scitex-sh" href="index.html" /> 
 </head>
 
@@ -55,9 +54,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#scitex_sh.run_shellscript"><code class="docutils literal notranslate"><span class="pre">run_shellscript()</span></code></a></li>
 </ul>
 </li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="api/scitex_sh.html">scitex_sh</a></li>
 </ul>
 
         </div>
@@ -109,8 +105,7 @@
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ShellResult</span></code>]</span></p>
 </dd>
 </dl>
-<section id="examples">
-<h2>Examples:<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">scitex.sh</span><span class="w"> </span><span class="kn">import</span> <span class="n">sh</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sh</span><span class="p">([</span><span class="s2">&quot;ls&quot;</span><span class="p">,</span> <span class="s2">&quot;-la&quot;</span><span class="p">,</span> <span class="s2">&quot;/home&quot;</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sh</span><span class="p">([</span><span class="s2">&quot;git&quot;</span><span class="p">,</span> <span class="s2">&quot;status&quot;</span><span class="p">])</span>
@@ -122,7 +117,6 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">filtered</span> <span class="o">=</span> <span class="p">[</span><span class="n">l</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;stdout&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="s1">&#39;.py&#39;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">]</span>
 </pre></div>
 </div>
-</section>
 </dd></dl>
 
 <dl class="py function">
@@ -139,15 +133,13 @@
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ShellResult</span></code></span></p>
 </dd>
 </dl>
-<section id="id1">
-<h2>Examples:<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">scitex.sh</span><span class="w"> </span><span class="kn">import</span> <span class="n">sh_run</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">sh_run</span><span class="p">([</span><span class="s2">&quot;ls&quot;</span><span class="p">,</span> <span class="s2">&quot;-la&quot;</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;success&#39;</span><span class="p">]:</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;stdout&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
-</section>
 </dd></dl>
 
 <dl class="py function">
@@ -163,14 +155,12 @@
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
 </dd>
 </dl>
-<section id="id2">
-<h2>Examples:<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;file; rm -rf /&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">scitex.sh</span><span class="w"> </span><span class="kn">import</span> <span class="n">sh</span><span class="p">,</span> <span class="n">quote</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sh</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cat </span><span class="si">{</span><span class="n">quote</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
 </dd></dl>
 
 <dl class="py function">
@@ -190,7 +180,6 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="scitex-sh" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="api/scitex_sh.html" class="btn btn-neutral float-right" title="scitex_sh" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
