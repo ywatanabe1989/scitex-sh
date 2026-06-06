@@ -54,7 +54,7 @@ def quote(arg: str) -> str:
     Returns:
     - str: Safely quoted string
 
-    Examples:
+    Examples
     --------
     >>> filename = "file; rm -rf /"
     >>> from scitex.sh import sh, quote
