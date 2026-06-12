@@ -1,0 +1,33 @@
+name: l7-self-hosted-smoke
+
+# L7 pilot: invokes the self-hosted runner on Spartan sapphire (jobid
+# 26000080 on bm144 via srun --overlap, neurovista-managed). One-shot
+# ephemeral runner verifies env + measures wall.
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/l7-self-hosted-smoke.yml'
+      - 'L7_PILOT_TRIGGER.md'
+
+jobs:
+  l7-smoke:
+    runs-on: [self-hosted, spartan-cpu, sapphire]
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Show host info
+        run: |
+          set -x
+          uname -a
+          hostname
+          nproc
+          free -h | head -3
+          cat /etc/os-release 2>/dev/null | head -5 || true
+          echo "RUNNER_NAME=$RUNNER_NAME"
+          echo "RUNNER_OS=$RUNNER_OS"
+      - name: Import smoke
+        run: |
+          set -x
+          python3 -c "import sys; print(f'python: {sys.version}')"
+          python3 -c "print('hello from spartan self-hosted')"
