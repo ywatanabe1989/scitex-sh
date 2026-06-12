@@ -1,0 +1,25 @@
+name: l7-self-hosted-smoke
+
+# L7 pilot: minimal one-job smoke on Spartan sapphire self-hosted runner.
+# No path filter — runs on every PR (tiny, ~10s).
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  l7-smoke:
+    runs-on: [self-hosted, spartan-cpu, sapphire]
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Host info
+        run: |
+          set -x
+          uname -a
+          hostname
+          nproc
+          free -h | head -3
+          echo "RUNNER_NAME=$RUNNER_NAME"
+      - name: Python smoke
+        run: python3 -c "import sys; print(f'python: {sys.version}'); print('hello from spartan')"
