@@ -7,6 +7,13 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.0]
+
+- ci: canonical fleet-standard workflows (self-hosted + uv) + CLA allowlist (#14)
+- ci: run the pytest matrix on the Spartan SIF runner — no per-run install (#13)
+- ci: L7 self-hosted runner pilot smoke; L1-L5 speedup pattern (#11, #12)
+- chore(release): bump to 0.2.0 (MINOR)
+
 ## [0.1.4]
 
 - fix(workflows): resync integrated release pipeline from scitex-dev v0.11.20 (#4)
